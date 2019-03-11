@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import math
 import torch.utils.data as Data
 from torch.autograd import Variable
+import time
 
 class SBRnn(nn.Module):
     def __init__(self, feature, hidden_size, num_layers, M):
@@ -59,17 +60,64 @@ def generate_data(M,Seq_length,data_num):
     origin_data=np.random.randint(M,size=[data_num,Seq_length])
     return origin_data
 
-def cal_received_signal(data,samples,Seq_length,omega,B,num):
+def cal_received_training_signal(data,samples,Seq_length,omega,B,num):
     t = np.arange(0,Seq_length*samples/omega-10**-10,1/omega)
     t = t.reshape(-1,samples)
     t = t*10**6
     #print(t)
     alpha = 2
     kop = 10
-    beta = 0.2
-    eta = 1
+    beta = [0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.30, 0.31, 0.32, 0.33, 0.34, 0.35]
+    eta = [1, 10, 20, 50, 100, 200, 500]
+    Lambda = np.zeros(shape=[Seq_length,samples])
+    xi = np.zeros([num, Seq_length, samples])
 
-    Lambda = kop * (beta ** (-alpha) * t ** (alpha - 1)) * np.exp(-t / beta) / math.gamma(alpha)
+    for step in range(num):
+        beta_index = np.random.randint(0, len(beta))
+        eta_index = np.random.randint(0, len(eta))
+        Lambda = kop * (beta[beta_index] ** (-alpha) * t ** (alpha - 1)) * np.exp(-t / beta[beta_index]) / math.gamma(alpha)
+        for j in range(samples):
+            xi[step,:,j] = np.convolve(data[step,:],Lambda[:,j])[:Seq_length] + eta[eta_index]
+
+    received_signal = np.random.poisson(xi) / B
+    #print(received_signal[0,:,:])
+    received_signal = received_signal.reshape(num, Seq_length, int(samples/B), B)
+    #print(received_signal[0,:,:,:])
+    received_signal = np.sum(received_signal,axis=3).squeeze()
+    #print(received_signal[0,:,:])
+    received_signal = received_signal.reshape(num,-1)
+    #print(received_signal[0,:])
+    batch, length = received_signal.shape
+    diff_receive=received_signal[:,1:]-received_signal[:,:-1]
+    b0 = received_signal[:,0].reshape(batch,1)
+    bB_1 = received_signal[:,length-1].reshape(batch,1)
+
+    diff_receive=np.concatenate((b0,diff_receive),axis=1)
+    diff_receive=diff_receive.reshape(batch,Seq_length,-1)
+    print('diff_receive shape:', diff_receive.shape,'signal:\n',diff_receive)
+    return diff_receive
+
+def cal_received_testing_signal(data,samples,Seq_length,omega,B,num):
+    t = np.arange(0,Seq_length*samples/omega-10**-10,1/omega)
+    t = t.reshape(-1,samples)
+    t = t*10**6
+    #print(t)
+    alpha = 2
+    kop = 10
+    beta_0 = 0.2
+    eta_0 = 10
+    v = 10 ** -3
+    d = 10 ** -3
+    beta = beta_0
+    eta = eta_0
+    Lambda = np.zeros(shape=[Seq_length,samples])
+
+    for i in range(Seq_length):
+        Lambda[i,:] = kop * (beta ** (-alpha) * t[i,:] ** (alpha - 1)) * np.exp(-t[i,:] / beta) / math.gamma(alpha)
+        N =np.random.normal()
+        beta = beta + d * beta_0 * N + v * beta_0
+        eta = eta + d * eta_0 * N + v * eta_0
+
     '''
     plt.plot(t,Lambda)
     plt.grid()
@@ -117,24 +165,33 @@ LR = 0.001
 hidden_size = 80
 num_layers = 3
 
+load_model = 0
+save_model = 1
+train_model = 1
+test_model = 1
+PATH='./model'
+
 if __name__ == "__main__":
+    timestampTime = time.strftime("%H%M%S")
+    timestampDate = time.strftime("%d%m%Y")
+    timestampLaunch = timestampDate + '-' + timestampTime
+
     tao = 0.05 * 10 ** -6 # symbol interval
     a = int(tao * omega) # 过采样率
     B = 10
+
     model = SBRnn(int(a/B),hidden_size,num_layers,M)
     model.cuda()
     print(model)
+
     label = generate_data(M, Seq_length, train_num)
-    received_signal = cal_received_signal(label, a, Seq_length, omega, B, train_num)
+    received_signal = cal_received_training_signal(label, a, Seq_length, omega, B, train_num)
 
     train_data=torch.from_numpy(received_signal).float()
     train_label=torch.from_numpy(label).long()
 
-    #print(train_data.size())
-    #print(train_label.size())
-
     label = generate_data(M, Seq_length, test_num)
-    received_signal = cal_received_signal(label, a, Seq_length, omega, B, test_num)
+    received_signal = cal_received_testing_signal(label, a, Seq_length, omega, B, test_num)
 
     test_data = torch.from_numpy(received_signal).float()
     test_label = torch.from_numpy(label).long()
@@ -148,7 +205,16 @@ if __name__ == "__main__":
     # 定义优化器和损失函数
     loss_func = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=LR)
-    if 1:
+
+    if load_model:
+        checkpoint = torch.load(PATH)
+        model.load_state_dict(checkpoint['model_state_dict'])
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        epoch = checkpoint['epoch']
+        loss = checkpoint['loss']
+        model.eval()
+
+    if train_model:
         print('train begin\n')
         for epoch in range(MAX_EPOCH):
             train_loss=0.0
@@ -166,19 +232,27 @@ if __name__ == "__main__":
             train_loss=train_loss/test_num
             print('Epoch: ', epoch, '| train loss: %.4f' % train_loss)
 
+    if save_model:
+        torch.save({'epoch': epoch + 1, 'state_dict': model.state_dict(), 'loss': train_loss,
+
+                    'optimizer': optimizer.state_dict(),},
+
+                    PATH + '/m-' + timestampLaunch + '.pth.tar')
+
 
     ber=0
-    print('test begin\n')
-    for step, (x, y) in enumerate(test_loader):
-        pred = model(x.cuda(), L)
-        pred = pred.cpu()
-        pred = pred.detach().numpy().astype(int)
-        pred = np.argmax(pred, axis=2)
-        label = y.detach().numpy()
-        no_errors = (pred != label)
-        no_errors = no_errors.astype(int).sum()
-        #print(no_errors)
-        ber += no_errors / (test_num*Seq_length)
-    print(ber)
+    if test_model:
+        print('test begin\n')
+        for step, (x, y) in enumerate(test_loader):
+            pred = model(x.cuda(), L)
+            pred = pred.cpu()
+            pred = pred.detach().numpy().astype(int)
+            pred = np.argmax(pred, axis=2)
+            label = y.detach().numpy()
+            no_errors = (pred != label)
+            no_errors = no_errors.astype(int).sum()
+            #print(no_errors)
+            ber += no_errors / (test_num*Seq_length)
+        print(ber)
 
 
