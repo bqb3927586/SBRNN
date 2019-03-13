@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8e3bb5ce-5971-4c11-af83-0ad235292672" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/SBRNN.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SBRNN.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/SBRNN OOK.py" beforeDir="false" afterPath="$PROJECT_DIR$/SBRNN OOK.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Varying SBRNN.py" beforeDir="false" afterPath="$PROJECT_DIR$/Varying SBRNN.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +16,7 @@
     <SUITE FILE_PATH="coverage/SBRNN$SBRNN_OOK.coverage" NAME="SBRNN OOK Coverage Results" MODIFIED="1552030471333" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SBRNN$varing_channel_SBRNN_OOK.coverage" NAME="varing channel SBRNN OOK Coverage Results" MODIFIED="1552281352209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/SBRNN$SBRNN.coverage" NAME="SBRNN Coverage Results" MODIFIED="1551701862474" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/SBRNN$Varying_SBRNN.coverage" NAME="Varying SBRNN Coverage Results" MODIFIED="1552286398429" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SBRNN$Varying_SBRNN.coverage" NAME="Varying SBRNN Coverage Results" MODIFIED="1552366878035" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -27,8 +26,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SBRNN OOK.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="118" selection-end-line="184" />
+            <state relative-caret-position="709">
+              <caret line="95" column="46" selection-start-line="95" selection-start-column="46" selection-end-line="95" selection-end-column="46" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -39,8 +38,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Varying SBRNN.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1195">
-              <caret line="232" column="14" lean-forward="true" selection-start-line="232" selection-start-column="14" selection-end-line="232" selection-end-column="14" />
+            <state relative-caret-position="152">
+              <caret line="221" selection-start-line="221" selection-end-line="221" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -49,9 +48,37 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SBRNN.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-570">
+              <caret line="90" column="12" selection-start-line="90" selection-start-column="12" selection-end-line="90" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://G:/banghua/Com_DL/rayleigh.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="817">
+              <caret line="43" column="10" selection-start-line="43" selection-start-column="10" selection-end-line="43" selection-end-column="10" />
+              <folding>
+                <element signature="e#0#22#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://G:/banghua/Com_DL/commpy/channels.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1134" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BLSTM.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
+            <state relative-caret-position="-1438">
               <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
             </state>
           </provider>
@@ -60,7 +87,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://G:/banghua/SequentialRNN/freqfading - 副本.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1797">
+            <state relative-caret-position="10849">
               <caret line="571" selection-start-line="571" selection-end-line="571" />
             </state>
           </provider>
@@ -79,10 +106,12 @@
     <findStrings>
       <find>batch_size</find>
       <find>Batch_size</find>
+      <find>Seq_length</find>
     </findStrings>
     <replaceStrings>
       <replace>Batch_size</replace>
       <replace>train_num</replace>
+      <replace>Seq_Length</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -98,13 +127,13 @@
       <list>
         <option value="$PROJECT_DIR$/SBRNN.py" />
         <option value="$PROJECT_DIR$/BLSTM.py" />
-        <option value="$PROJECT_DIR$/SBRNN OOK.py" />
         <option value="$PROJECT_DIR$/varing channel SBRNN OOK.py" />
+        <option value="$PROJECT_DIR$/SBRNN OOK.py" />
         <option value="$PROJECT_DIR$/Varying SBRNN.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-9" />
     <option name="y" value="-9" />
     <option name="width" value="2898" />
@@ -116,6 +145,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -127,7 +157,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -291,37 +320,38 @@
       <option name="presentableId" value="Default" />
       <updated>1551326453801</updated>
       <workItem from="1551927561531" duration="24327000" />
+      <workItem from="1552292767774" duration="14837000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24327000" />
+    <option name="totallyTimeSpent" value="39164000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="2575" height="1415" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.094159715" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.09495431" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49821216" weight="0.21590023" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49781486" visible="true" weight="0.21590023" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3257989" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32969603" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Python Console" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50178784" side_tool="true" weight="0.21590023" />
-      <window_info active="true" anchor="right" id="SciView" visible="true" weight="0.32975766" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50218517" side_tool="true" weight="0.21590023" />
+      <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="12" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="SciView" order="4" visible="true" weight="0.32975766" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25176305" />
@@ -352,8 +382,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Varying SBRNN.py</url>
-          <line>97</line>
-          <option name="timeStamp" value="13" />
+          <line>95</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -399,20 +429,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BLSTM.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SBRNN.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="90" column="12" lean-forward="true" selection-start-line="90" selection-start-column="12" selection-end-line="90" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://G:/banghua/SequentialRNN/conv_decoder.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="842">
@@ -420,37 +436,67 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/varing channel SBRNN OOK.py" />
     <entry file="file://G:/banghua/SequentialRNN/freqfading - 副本.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1797">
+        <state relative-caret-position="10849">
           <caret line="571" selection-start-line="571" selection-end-line="571" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/varing channel SBRNN OOK.py">
+    <entry file="file://G:/banghua/Com_DL/RadioCNN-master/radioCNN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="152" column="38" lean-forward="true" selection-start-line="152" selection-start-column="38" selection-end-line="152" selection-end-column="38" />
+        <state relative-caret-position="2989">
+          <caret line="220" column="29" lean-forward="true" selection-start-line="220" selection-start-column="29" selection-end-line="220" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/banghua/Com_DL/commpy/channels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1134" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SBRNN.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-570">
+          <caret line="90" column="12" selection-start-line="90" selection-start-column="12" selection-end-line="90" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SBRNN OOK.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="709">
+          <caret line="95" column="46" selection-start-line="95" selection-start-column="46" selection-end-line="95" selection-end-column="46" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SBRNN OOK.py">
+    <entry file="file://$PROJECT_DIR$/BLSTM.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="118" selection-end-line="184" />
+        <state relative-caret-position="-1438">
+          <caret line="18" column="31" selection-start-line="18" selection-start-column="31" selection-end-line="18" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://G:/banghua/Com_DL/rayleigh.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="817">
+          <caret line="43" column="10" selection-start-line="43" selection-start-column="10" selection-end-line="43" selection-end-column="10" />
           <folding>
-            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#0#22#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Varying SBRNN.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1195">
-          <caret line="232" column="14" lean-forward="true" selection-start-line="232" selection-start-column="14" selection-end-line="232" selection-end-column="14" />
+        <state relative-caret-position="152">
+          <caret line="221" selection-start-line="221" selection-end-line="221" />
           <folding>
             <element signature="e#0#12#0" expanded="true" />
           </folding>

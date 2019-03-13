@@ -27,10 +27,10 @@ class SBRnn(nn.Module):
         #print('x',x)
         h0 = torch.zeros(self.num_layers * 2, x.size(0), self.hidden_size).cuda() # 2 for bidirection
         c0 = torch.zeros(self.num_layers * 2, x.size(0), self.hidden_size).cuda()
-        batch, Seq_length, samples = x.size()
-        sliding_num = Seq_length - L +1
-        sliding_res = torch.zeros([batch, Seq_length, self.out_size]).cuda()
-        jk = torch.zeros(Seq_length).cuda()
+        batch, Seq_Length, samples = x.size()
+        sliding_num = Seq_Length - L +1
+        sliding_res = torch.zeros([batch, Seq_Length, self.out_size]).cuda()
+        jk = torch.zeros(Seq_Length).cuda()
         for i in range(len(jk)):
             if i<L-1:
                 jk[i]=i+1
@@ -56,12 +56,12 @@ class SBRnn(nn.Module):
         #sliding_res.backward(torch.ones(size=sliding_res.size()))
         return sliding_res
 
-def generate_data(M,Seq_length,data_num):
-    origin_data=np.random.randint(M,size=[data_num,Seq_length])
+def generate_data(M,Seq_Length,data_num):
+    origin_data=np.random.randint(M,size=[data_num,Seq_Length])
     return origin_data
 
-def cal_received_training_signal(data,samples,Seq_length,omega,B,num):
-    t = np.arange(0,Seq_length*samples/omega-10**-10,1/omega)
+def cal_received_training_signal(data,samples,Seq_Length,omega,B,num):
+    t = np.arange(0,Seq_Length*samples/omega-10**-10,1/omega)
     t = t.reshape(-1,samples)
     t = t*10**6
     #print(t)
@@ -69,36 +69,40 @@ def cal_received_training_signal(data,samples,Seq_length,omega,B,num):
     kop = 10
     beta = [0.15, 0.16, 0.17, 0.18, 0.19, 0.20, 0.21, 0.22, 0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29, 0.30, 0.31, 0.32, 0.33, 0.34, 0.35]
     eta = [1, 10, 20, 50, 100, 200, 500]
-    Lambda = np.zeros(shape=[Seq_length,samples])
-    xi = np.zeros([num, Seq_length, samples])
+    Lambda = np.zeros(shape=[Seq_Length,samples])
+    xi = np.zeros([num, Seq_Length, samples])
 
     for step in range(num):
         beta_index = np.random.randint(0, len(beta))
         eta_index = np.random.randint(0, len(eta))
         Lambda = kop * (beta[beta_index] ** (-alpha) * t ** (alpha - 1)) * np.exp(-t / beta[beta_index]) / math.gamma(alpha)
         for j in range(samples):
-            xi[step,:,j] = np.convolve(data[step,:],Lambda[:,j])[:Seq_length] + eta[eta_index]
+            xi[step,:,j] = np.convolve(data[step,:],Lambda[:,j])[:Seq_Length] + eta[eta_index]
 
     received_signal = np.random.poisson(xi) / B
     #print(received_signal[0,:,:])
-    received_signal = received_signal.reshape(num, Seq_length, int(samples/B), B)
+    received_signal = received_signal.reshape(num, Seq_Length, int(samples/B), B)
     #print(received_signal[0,:,:,:])
     received_signal = np.sum(received_signal,axis=3).squeeze()
     #print(received_signal[0,:,:])
     received_signal = received_signal.reshape(num,-1)
     #print(received_signal[0,:])
     batch, length = received_signal.shape
+    b_avg = np.mean(received_signal,axis=1)
+    b_sigma = np.sqrt(np.var(received_signal,axis=1))
+    for i in range(batch):
+        received_signal[i,:] = (received_signal[i,:] - b_avg[i]) / b_sigma[i]
     diff_receive=received_signal[:,1:]-received_signal[:,:-1]
     b0 = received_signal[:,0].reshape(batch,1)
     bB_1 = received_signal[:,length-1].reshape(batch,1)
 
     diff_receive=np.concatenate((b0,diff_receive),axis=1)
-    diff_receive=diff_receive.reshape(batch,Seq_length,-1)
-    print('diff_receive shape:', diff_receive.shape,'signal:\n',diff_receive)
+    diff_receive=diff_receive.reshape(batch,Seq_Length,-1)
+    #print('diff_receive shape:', diff_receive.shape,'signal:\n',diff_receive)
     return diff_receive
 
-def cal_received_testing_signal(data,samples,Seq_length,omega,B,num):
-    t = np.arange(0,Seq_length*samples/omega-10**-10,1/omega)
+def cal_received_testing_signal(data,samples,Seq_Length,omega,B,num):
+    t = np.arange(0,Seq_Length*samples/omega-10**-10,1/omega)
     t = t.reshape(-1,samples)
     t = t*10**6
     #print(t)
@@ -110,9 +114,9 @@ def cal_received_testing_signal(data,samples,Seq_length,omega,B,num):
     d = 10 ** -3
     beta = beta_0
     eta = eta_0
-    Lambda = np.zeros(shape=[Seq_length,samples])
+    Lambda = np.zeros(shape=[Seq_Length,samples])
 
-    for i in range(Seq_length):
+    for i in range(Seq_Length):
         Lambda[i,:] = kop * (beta ** (-alpha) * t[i,:] ** (alpha - 1)) * np.exp(-t[i,:] / beta) / math.gamma(alpha)
         N =np.random.normal()
         beta = beta + d * beta_0 * N + v * beta_0
@@ -126,49 +130,114 @@ def cal_received_testing_signal(data,samples,Seq_length,omega,B,num):
     #print(data.shape)
     #print(Lambda.shape)
     #print(data[10,:])
-    xi = np.zeros([num,Seq_length,samples])
+    xi = np.zeros([num,Seq_Length,samples])
     for step in range(num):
         for j in range(samples):
-            xi[step,:,j]=np.convolve(data[step,:],Lambda[:,j])[:Seq_length]+eta
+            xi[step,:,j]=np.convolve(data[step,:],Lambda[:,j])[:Seq_Length]+eta
 
     received_signal = np.random.poisson(xi) / B
     #print(received_signal[0,:,:])
-    received_signal = received_signal.reshape(num, Seq_length, int(samples/B), B)
+    received_signal = received_signal.reshape(num, Seq_Length, int(samples/B), B)
     #print(received_signal[0,:,:,:])
     received_signal = np.sum(received_signal,axis=3).squeeze()
     #print(received_signal[0,:,:])
     received_signal = received_signal.reshape(num,-1)
     #print(received_signal[0,:])
     batch, length = received_signal.shape
+    b_avg = np.mean(received_signal,axis=1)
+    b_sigma = np.sqrt(np.var(received_signal,axis=1))
+    for i in range(batch):
+        received_signal[i,:] = (received_signal[i,:] - b_avg[i]) / b_sigma[i]
     diff_receive=received_signal[:,1:]-received_signal[:,:-1]
     b0 = received_signal[:,0].reshape(batch,1)
     bB_1 = received_signal[:,length-1].reshape(batch,1)
-
     diff_receive=np.concatenate((b0,diff_receive),axis=1)
-    diff_receive=diff_receive.reshape(batch,Seq_length,-1)
+    diff_receive=diff_receive.reshape(batch,Seq_Length,-1)
     #print('received_signal shape:',received_signal.shape,'signal:\n',received_signal)
     return diff_receive
 
+def train_model(model,L,M,Seq_Length,train_loader,train_num,test_loader,test_num,MAX_EPOCH,loss_func,optimizer):
+    print('train begin\n')
+    loss_min = 10000
+    ber_record = np.zeros(MAX_EPOCH)
+    train_loss = np.zeros(MAX_EPOCH)
+    for epoch in range(MAX_EPOCH):
+        for step, (x, y) in enumerate(train_loader):
+            b_x = x.requires_grad_().cuda()
+            b_y = y.cuda()
+            optimizer.zero_grad()
+            prediction = model(b_x, L)
+            prediction = prediction.reshape(-1, M)
+            b_y = b_y.reshape(-1)
+            loss = loss_func(prediction, b_y)
+            loss.backward()
+            optimizer.step()
+            train_loss[epoch] += loss
+        train_loss[epoch] = train_loss[epoch] / (train_num)
+        if train_loss[epoch] < loss_min:
+            loss_min = train_loss[epoch]
+            torch.save({'epoch': epoch + 1, 'state_dict': model.state_dict(), 'loss': loss_min,'optimizer': optimizer.state_dict(), },
+                       PATH + '/m-' + timestampLaunch + '.pth.tar')
+            print('Epoch: ', epoch + 1, ' | [save] | train loss: %.4f' % loss_min)
+        else:
+            print('Epoch: ', epoch + 1, '  | [----] | train loss: %.4f' % loss_min)
+        ber_record[epoch]=test_model(model,L,Seq_Length,test_loader,test_num)
+    '''
+    plt.plot(np.arange(0,MAX_EPOCH),train_loss)
+    plt.plot(np.arange(0,MAX_EPOCH),ber_record)
+    plt.grid()
+    plt.show()
+    '''
+    if epoch == MAX_EPOCH - 1:
+        torch.save({'epoch': epoch + 1, 'state_dict': model.state_dict(), 'loss': loss_min,'optimizer': optimizer.state_dict(),},
+                    PATH + '/m-fianl-' + timestampLaunch + '.pth.tar')
 
-M = 2  # 4-PAM
-train_num = 200*10**3
-test_num = 1000
+    fig = plt.figure()
+    ax1 = fig.add_subplot(111)
+    ax1.plot(np.arange(0,MAX_EPOCH)+1,train_loss)
+    ax1.set_ylabel('Train Loss')
+    ax1.set_title("Train Loss & BER")
+    ax2 = ax1.twinx()  # this is the important function
+    ax2.plot(np.arange(0,MAX_EPOCH)+1,ber_record, 'r')
+    #ax2.set_xlim([0, np.e])
+    ax2.set_ylabel('Test BER')
+    ax2.set_xlabel('Epoch')
+    plt.show()
 
-L = 50
-Seq_length = 100
-omega = 2 * 10 ** 9
+def test_model(model,L,Seq_Length,test_loader,test_num):
+    ber=0
+    #print('test begin\n')
+    for step, (x, y) in enumerate(test_loader):
+        pred = model(x.cuda(), L)
+        pred = pred.cpu()
+        pred = pred.detach().numpy().astype(int)
+        pred = np.argmax(pred, axis=2)
+        label = y.detach().numpy()
+        no_errors = (pred != label)
+        no_errors = no_errors.astype(int).sum()
+        #print(no_errors)
+        ber += no_errors / (test_num * Seq_Length)
+    print('BER:',ber)
+    return ber
 
-MAX_EPOCH = 20
+M = 2  # OOK
+train_num = 200*10**3 #200K train Seq
+test_num = 1000 # 1K test Seq
+
+L = 50 # Sliding window Length
+Seq_Length = 100 # total Seq length
+omega = 2 * 10 ** 9 # sampling rate
+
+MAX_EPOCH = 50
 BATCH_SIZE = 128
 LR = 0.001
 
 hidden_size = 80
 num_layers = 3
 
-load_model = 0
-save_model = 1
-train_model = 1
-test_model = 1
+load_flag = 0
+train_flag = 1
+test_flag = 1
 PATH='./model'
 
 if __name__ == "__main__":
@@ -178,20 +247,19 @@ if __name__ == "__main__":
 
     tao = 0.05 * 10 ** -6 # symbol interval
     a = int(tao * omega) # 过采样率
-    B = 10
+    B = 10 # 降采样率
 
-    model = SBRnn(int(a/B),hidden_size,num_layers,M)
-    model.cuda()
+    model = SBRnn(int(a/B),hidden_size,num_layers,M).cuda()
     print(model)
 
-    label = generate_data(M, Seq_length, train_num)
-    received_signal = cal_received_training_signal(label, a, Seq_length, omega, B, train_num)
+    label = generate_data(M, Seq_Length, train_num)
+    received_signal = cal_received_training_signal(label, a, Seq_Length, omega, B, train_num)
 
     train_data=torch.from_numpy(received_signal).float()
     train_label=torch.from_numpy(label).long()
 
-    label = generate_data(M, Seq_length, test_num)
-    received_signal = cal_received_testing_signal(label, a, Seq_length, omega, B, test_num)
+    label = generate_data(M, Seq_Length, test_num)
+    received_signal = cal_received_testing_signal(label, a, Seq_Length, omega, B, test_num)
 
     test_data = torch.from_numpy(received_signal).float()
     test_label = torch.from_numpy(label).long()
@@ -206,7 +274,7 @@ if __name__ == "__main__":
     loss_func = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=LR)
 
-    if load_model:
+    if load_flag:
         checkpoint = torch.load(PATH)
         model.load_state_dict(checkpoint['model_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
@@ -214,45 +282,5 @@ if __name__ == "__main__":
         loss = checkpoint['loss']
         model.eval()
 
-    if train_model:
-        print('train begin\n')
-        for epoch in range(MAX_EPOCH):
-            train_loss=0.0
-            for step, (x, y) in enumerate(train_loader):
-                b_x = x.requires_grad_().cuda()
-                b_y = y.cuda()
-                optimizer.zero_grad()
-                prediction = model(b_x, L)
-                prediction = prediction.reshape(-1,M)
-                b_y = b_y.reshape(-1)
-                loss = loss_func(prediction, b_y)
-                loss.backward()
-                optimizer.step()
-                train_loss+=loss
-            train_loss=train_loss/test_num
-            print('Epoch: ', epoch, '| train loss: %.4f' % train_loss)
-
-    if save_model:
-        torch.save({'epoch': epoch + 1, 'state_dict': model.state_dict(), 'loss': train_loss,
-
-                    'optimizer': optimizer.state_dict(),},
-
-                    PATH + '/m-' + timestampLaunch + '.pth.tar')
-
-
-    ber=0
-    if test_model:
-        print('test begin\n')
-        for step, (x, y) in enumerate(test_loader):
-            pred = model(x.cuda(), L)
-            pred = pred.cpu()
-            pred = pred.detach().numpy().astype(int)
-            pred = np.argmax(pred, axis=2)
-            label = y.detach().numpy()
-            no_errors = (pred != label)
-            no_errors = no_errors.astype(int).sum()
-            #print(no_errors)
-            ber += no_errors / (test_num*Seq_length)
-        print(ber)
-
-
+    if train_flag:
+        train_model(model,L,M,Seq_Length,train_loader,train_num,test_loader,test_num,MAX_EPOCH,loss_func,optimizer)

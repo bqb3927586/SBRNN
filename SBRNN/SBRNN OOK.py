@@ -95,7 +95,6 @@ def cal_received_signal(data,samples,Seq_length,omega,B,num):
     diff_receive=received_signal[:,1:]-received_signal[:,:-1]
     b0 = received_signal[:,0].reshape(batch,1)
     bB_1 = received_signal[:,length-1].reshape(batch,1)
-
     diff_receive=np.concatenate((b0,diff_receive),axis=1)
     diff_receive=diff_receive.reshape(batch,Seq_length,-1)
     #print('received_signal shape:',received_signal.shape,'signal:\n',received_signal)
