@@ -1,0 +1,112 @@
+G:\Anaconda3\envs\pytorch1.0\python.exe "G:/qinbo/SBRNN/SBRNN/Varying SBRNN.py"
+SBRnn(
+  (rnn): LSTM(10, 80, num_layers=3, batch_first=True, bidirectional=True)
+  (fc): Sequential(
+    (0): Linear(in_features=160, out_features=2, bias=True)
+    (1): Softmax()
+  )
+)
+train begin
+
+Epoch:  1  | [save] | train loss: 0.0339
+BER: 0.45136
+Epoch:  2  | [save] | train loss: 0.0315
+BER: 0.34547999999999995
+Epoch:  3  | [save] | train loss: 0.0310
+BER: 0.30367999999999995
+Epoch:  4  | [save] | train loss: 0.0306
+BER: 0.25389
+Epoch:  5  | [save] | train loss: 0.0303
+BER: 0.20551999999999998
+Epoch:  6  | [save] | train loss: 0.0302
+BER: 0.19576999999999997
+Epoch:  7  | [save] | train loss: 0.0301
+BER: 0.20135
+Epoch:  8  | [save] | train loss: 0.0300
+BER: 0.16673000000000002
+Epoch:  9  | [save] | train loss: 0.0300
+BER: 0.15965999999999997
+Epoch:  10  | [save] | train loss: 0.0299
+BER: 0.17035999999999998
+Epoch:  11  | [save] | train loss: 0.0299
+BER: 0.16293
+Epoch:  12  | [save] | train loss: 0.0298
+BER: 0.15647999999999998
+Epoch:  13  | [save] | train loss: 0.0298
+BER: 0.12754
+Epoch:  14  | [save] | train loss: 0.0297
+BER: 0.1416
+Epoch:  15  | [save] | train loss: 0.0297
+BER: 0.13166
+Epoch:  16  | [save] | train loss: 0.0297
+BER: 0.1281
+Epoch:  17  | [save] | train loss: 0.0297
+BER: 0.13176
+Epoch:  18  | [save] | train loss: 0.0297
+BER: 0.12504
+Epoch:  19  | [save] | train loss: 0.0296
+BER: 0.1263
+Epoch:  20  | [save] | train loss: 0.0296
+BER: 0.12846
+Epoch:  21  | [save] | train loss: 0.0296
+BER: 0.12568000000000001
+Epoch:  22  | [save] | train loss: 0.0295
+BER: 0.12553999999999998
+Epoch:  23  | [save] | train loss: 0.0295
+BER: 0.11644
+Epoch:  24  | [save] | train loss: 0.0295
+BER: 0.11639000000000001
+Epoch:  25  | [save] | train loss: 0.0295
+BER: 0.12337000000000001
+Epoch:  26  | [save] | train loss: 0.0294
+BER: 0.11345
+Epoch:  27  | [save] | train loss: 0.0294
+BER: 0.11270999999999999
+Epoch:  28  | [save] | train loss: 0.0294
+BER: 0.11536999999999999
+Epoch:  29  | [save] | train loss: 0.0294
+BER: 0.10827000000000002
+Epoch:  30  | [save] | train loss: 0.0294
+BER: 0.11019
+Epoch:  31  | [----] | train loss: 0.0294
+BER: 0.10735000000000001
+Epoch:  32  | [save] | train loss: 0.0293
+BER: 0.09605
+Epoch:  33  | [save] | train loss: 0.0293
+BER: 0.10818000000000003
+Epoch:  34  | [save] | train loss: 0.0293
+BER: 0.10337
+Epoch:  35  | [----] | train loss: 0.0293
+BER: 0.09775
+Epoch:  36  | [----] | train loss: 0.0293
+BER: 0.09765000000000001
+Epoch:  37  | [save] | train loss: 0.0293
+BER: 0.10096
+Epoch:  38  | [save] | train loss: 0.0292
+BER: 0.1061
+Epoch:  39  | [save] | train loss: 0.0292
+BER: 0.10125999999999999
+Epoch:  40  | [save] | train loss: 0.0292
+BER: 0.09631
+Epoch:  41  | [save] | train loss: 0.0292
+BER: 0.09432
+Epoch:  42  | [----] | train loss: 0.0292
+BER: 0.0955
+Epoch:  43  | [save] | train loss: 0.0292
+BER: 0.09623
+Epoch:  44  | [save] | train loss: 0.0292
+BER: 0.09077
+Epoch:  45  | [----] | train loss: 0.0292
+BER: 0.09297000000000001
+Epoch:  46  | [save] | train loss: 0.0291
+BER: 0.08327000000000001
+Epoch:  47  | [----] | train loss: 0.0291
+BER: 0.09266
+Epoch:  48  | [----] | train loss: 0.0291
+BER: 0.0862
+Epoch:  49  | [save] | train loss: 0.0291
+BER: 0.08625000000000001
+Epoch:  50  | [save] | train loss: 0.0291
+BER: 0.08845
+
+Process finished with exit code 0
